@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReceptAI — Project Brief v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A1628;
+    --bg2: #0f1e38;
+    --card: #112233;
+    --card2: #0F4F4A;
+    --teal: #00C9A7;
+    --teal-dim: rgba(0,201,167,0.12);
+    --teal-border: rgba(0,201,167,0.25);
+    --white: #FFFFFF;
+    --gray: #B0BEC5;
+    --gray-dim: rgba(176,190,197,0.15);
+    --red: #FF5A5A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(0,201,167,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 50% at 10% 80%, rgba(15,79,74,0.2) 0%, transparent 60%);
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      linear-gradient(rgba(0,201,167,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,201,167,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .cover-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cover-tag::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  .cover h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    margin-bottom: 8px;
+  }
+
+  .cover h1 .accent { color: var(--teal); }
+
+  .cover-sub {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 400;
+    color: var(--gray);
+    margin-top: 24px;
+    max-width: 560px;
+    line-height: 1.5;
+  }
+
+  .cover-meta {
+    margin-top: 60px;
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+
+  .cover-meta-item { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 4px; 
+  }
+
+  .cover-meta-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  .cover-meta-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  .cover-corner {
+    position: absolute;
+    bottom: 40px;
+    right: 60px;
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 1px;
+    opacity: 0.5;
+  }
+
+  /* ── LAYOUT ── */
+  .doc {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 80px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .section-number {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    margin-bottom: 28px;
+  }
+
+  .section-title .dim { color: var(--gray); font-weight: 400; }
+
+  /* ── PROSE ── */
+  p { color: var(--gray); margin-bottom: 16px; }
+  p strong { color: var(--white); }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight {
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 24px 0;
+  }
+
+  .highlight p { color: var(--white); margin: 0; }
+
+  /* ── PROBLEM CARDS ── */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .problem-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .problem-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--red);
+    opacity: 0.6;
+  }
+
+  .problem-card .icon { font-size: 22px; margin-bottom: 12px; }
+  .problem-card h4 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--white); }
+  .problem-card p { font-size: 13px; color: var(--gray); margin: 0; line-height: 1.5; }
+
+  /* ── PRODUCT BLOCK ── */
+  .product-block {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 36px;
+    border: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-block::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--teal), rgba(0,201,167,0.1));
+  }
+
+  .product-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .product-desc { color: var(--gray); margin-bottom: 20px; font-size: 14px; }
+
+  .feature-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--gray);
+  }
+
+  .feature-list li::before {
+    content: '→';
+    color: var(--teal);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── TECH STACK ── */
+  .tech-flow {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 36px;
+    border: 1px solid rgba(255,255,255,0.06);
+    margin-top: 24px;
+  }
+
+  .tech-flow-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 28px;
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .flow-step {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    position: relative;
+    padding-bottom: 28px;
+  }
+
+  .flow-step:last-child { padding-bottom: 0; }
+
+  .flow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 99px;
+    top: 36px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--teal-border), transparent);
+  }
+
+  .flow-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding-top: 2px;
+  }
+
+  .flow-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--teal-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .flow-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    padding-top: 5px;
+  }
+
+  .flow-detail {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.6;
+    padding-top: 4px;
+  }
+
+  .flow-detail .chip {
+    display: inline-block;
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin: 4px 4px 0 0;
+  }
+
+  /* ── TELEPHONY TABLE ── */
+  .tel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .tel-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px 22px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .tel-card .scenario {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .tel-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+
+  .tel-card p { font-size: 13px; color: var(--gray); margin: 0; line-height: 1.5; }
+
+  /* ── PRICING ── */
+  .price-block {
+    background: linear-gradient(135deg, var(--card2) 0%, #0a3530 100%);
+    border-radius: 20px;
+    padding: 48px;
+    border: 1px solid rgba(0,201,167,0.2);
+    text-align: center;
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-block::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,201,167,0.1) 0%, transparent 70%);
+  }
+
+  .price-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: 72px;
+    font-weight: 800;
+    color: var(--teal);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -3px;
+  }
+
+  .price-label {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+
+  .price-includes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .price-chip {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    color: var(--white);
+  }
+
+  .price-note {
+    font-size: 13px;
+    color: var(--gray);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .price-note strong { color: var(--teal); }
+
+  /* ── CLIENT COSTS ── */
+  .costs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .cost-item {
+    background: var(--gray-dim);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 16px 18px;
+  }
+
+  .cost-item .cost-name { font-size: 12px; color: var(--gray); margin-bottom: 4px; }
+  .cost-item .cost-val { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--white); }
+
+  /* ── PROCESS ── */
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 24px;
+  }
+
+  .process-step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 20px;
+    position: relative;
+    padding-bottom: 32px;
+  }
+
+  .process-step:last-child { padding-bottom: 0; }
+
+  .process-step:not(:last-child) .step-line {
+    position: absolute;
+    left: 29px;
+    top: 44px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--teal-border) 0%, transparent 100%);
+  }
+
+  .step-num {
+    width: 40px;
+    height: 40px;
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+
+  .step-content { padding-top: 6px; }
+
+  .step-content h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--white);
+  }
+
+  .step-content p { font-size: 13px; color: var(--gray); margin: 0; line-height: 1.6; }
+
+  /* ── ADVANTAGES ── */
+  .adv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .adv-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .adv-card .adv-icon { font-size: 24px; margin-bottom: 12px; }
+  .adv-card h4 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--white); }
+  .adv-card p { font-size: 13px; color: var(--gray); margin: 0; line-height: 1.5; }
+
+  /* ── VALUES ── */
+  .values-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .value-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .value-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--teal-dim);
+    border: 1px solid var(--teal-border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .value-item h4 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--white); }
+  .value-item p { font-size: 13px; color: var(--gray); margin: 0; line-height: 1.6; }
+
+  /* ── TOV ── */
+  .tov-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .tov-col {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .tov-col.do { border-top: 2px solid var(--teal); }
+  .tov-col.dont { border-top: 2px solid var(--red); }
+
+  .tov-col h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .tov-col.do h4 { color: var(--teal); }
+  .tov-col.dont h4 { color: var(--red); }
+
+  .tov-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tov-list li { font-size: 13px; color: var(--gray); display: flex; gap: 8px; }
+  .tov-list li::before { font-weight: 700; flex-shrink: 0; }
+  .tov-col.do .tov-list li::before { content: '✓'; color: var(--teal); }
+  .tov-col.dont .tov-list li::before { content: '✗'; color: var(--red); }
+
+  .tov-example {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .tov-col.do .tov-example { background: rgba(0,201,167,0.07); color: var(--white); }
+  .tov-col.dont .tov-example { background: rgba(255,90,90,0.07); color: var(--gray); }
+
+  .tone-contexts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .tone-ctx {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .tone-ctx .ctx-label { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+  .tone-ctx .ctx-val { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; color: var(--teal); }
+
+  /* ── BRAND AESTHETIC ── */
+  .palette-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+
+  .swatch {
+    flex: 1;
+    min-width: 120px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .swatch-color { height: 80px; }
+  .swatch-info { padding: 12px 14px; background: var(--card); }
+  .swatch-name { font-size: 12px; font-weight: 500; color: var(--white); margin-bottom: 2px; }
+  .swatch-hex { font-size: 11px; color: var(--gray); font-family: monospace; }
+
+  /* ── NAMES TABLE ── */
+  .names-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+  .names-table th {
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    padding: 0 16px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .names-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 14px;
+    color: var(--gray);
+    vertical-align: top;
+  }
+
+  .names-table td:first-child {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .names-table tr:last-child td { border-bottom: none; }
+  .names-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* ── MARKET ── */
+  .market-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+  }
+
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--teal);
+    line-height: 1;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+
+  .stat-desc { font-size: 12px; color: var(--gray); line-height: 1.5; }
+
+  /* ── SLOGAN ── */
+  .slogan-block {
+    background: linear-gradient(135deg, var(--card2) 0%, #0d2d28 100%);
+    border: 1px solid rgba(0,201,167,0.2);
+    border-radius: 20px;
+    padding: 56px 48px;
+    text-align: center;
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .slogan-block::before {
+    content: '❝';
+    position: absolute;
+    top: 20px;
+    left: 32px;
+    font-size: 80px;
+    color: var(--teal);
+    opacity: 0.1;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .slogan-text {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.4;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .slogan-text em {
+    font-style: normal;
+    color: var(--teal);
+  }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 32px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .doc-footer span { font-size: 12px; color: var(--gray); opacity: 0.5; letter-spacing: 0.5px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 680px) {
+    .cover { padding: 60px 24px; }
+    .doc { padding: 60px 20px; }
+    .tov-split { grid-template-columns: 1fr; }
+    .tel-grid { grid-template-columns: 1fr; }
+    .flow-step { grid-template-columns: 1fr; }
+    .flow-label { margin-bottom: 8px; }
+    .flow-step::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-tag">Project Brief · Internal Document</div>
+  <h1>Recept<span class="accent">AI</span></h1>
+  <div class="cover-sub">AI-адміністратор під ключ для малого бізнесу — відповідає на дзвінки, веде клієнтів у Telegram і фіксує все в таблиці.</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Версія</span>
+      <span class="cover-meta-value">2.0</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Ринок</span>
+      <span class="cover-meta-value">Україна</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Модель</span>
+      <span class="cover-meta-value">Послуга під ключ</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cover-meta-label">Стек</span>
+      <span class="cover-meta-value">ElevenLabs · Make · SIP</span>
+    </div>
+  </div>
+  <div class="cover-corner">receptai.com.ua</div>
+</div>
+
+<div class="doc">
+
+  <!-- 01 СУТЬ -->
+  <div class="section">
+    <div class="section-number">01 — Суть проєкту</div>
+    <h2 class="section-title">Що таке <span class="dim">ReceptAI</span></h2>
+    <div class="highlight">
+      <p><strong>ReceptAI</strong> — сервіс впровадження AI-адміністратора для малого бізнесу у сфері послуг. Ми підключаємо до телефонного номера клієнта розумного голосового агента, налаштовуємо Telegram-бот і автоматично фіксуємо всі дані в Google Sheets — за фіксовану ціну, без прихованих витрат.</p>
+    </div>
+    <p>Це не платформа і не конструктор. Клієнт не вчиться жодному сервісу — він просто отримує готову систему яка вже працює. Ми робимо все налаштування самостійно, пояснюємо як користуватись, і запускаємо.</p>
+    <p><strong>Ключовий принцип:</strong> клієнт нічого не змінює у своєму бізнесі. Той самий номер телефону, той самий Telegram — просто тепер на них завжди хтось відповідає.</p>
+  </div>
+
+  <!-- 02 ПРОБЛЕМА -->
+  <div class="section">
+    <div class="section-number">02 — Проблема</div>
+    <h2 class="section-title">Чому бізнес <span class="dim">втрачає клієнтів</span></h2>
+    <p>Малий бізнес у сфері послуг щодня втрачає гроші через чотири системні проблеми:</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="icon">📵</div>
+        <h4>Пропущені дзвінки</h4>
+        <p>Адміністратор зайнятий, на обіді або вже пішов. Клієнт дзвонить — ніхто не відповідає — йде до конкурента.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">⏳</div>
+        <h4>Повільний Telegram</h4>
+        <p>Клієнт пише в бот або особисті — чекає годину. До того часу він вже знайшов альтернативу.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">🤒</div>
+        <h4>Людський фактор</h4>
+        <p>Адміністратор хворіє, звільняється, робить помилки. Бізнес залежить від однієї людини.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">💸</div>
+        <h4>Висока вартість</h4>
+        <p>Живий адміністратор коштує $300–800 на місяць. Для малого бізнесу — це суттєва стаття витрат.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 ПРОДУКТ -->
+  <div class="section">
+    <div class="section-number">03 — Продукт</div>
+    <h2 class="section-title">Одне рішення <span class="dim">три канали</span></h2>
+    <p>ReceptAI — це єдиний продукт з трьох взаємопов'язаних компонентів. Вони налаштовуються разом і працюють як одна система.</p>
+
+    <div class="product-block">
+      <div class="product-title">🎙️ Голосовий AI-агент</div>
+      <p class="product-desc">Підключається до існуючого номера телефону клієнта через переадресацію. Клієнт нічого не змінює — той самий номер, просто тепер на нього завжди відповідають.</p>
+      <ul class="feature-list">
+        <li>Приймає вхідні дзвінки 24/7 — без вихідних, без обіду</li>
+        <li>Спілкується живою українською мовою, звучить природно</li>
+        <li>Записує клієнта на прийом або відповідає на питання</li>
+        <li>Розповідає про послуги, ціни, адресу, графік роботи</li>
+        <li>У складних випадках переводить на власника бізнесу</li>
+        <li>Після дзвінка автоматично фіксує дані в Google Sheets</li>
+      </ul>
+    </div>
+
+    <div class="product-block">
+      <div class="product-title">💬 Telegram-бот</div>
+      <p class="product-desc">Автоматизований асистент у Telegram який веде повноцінний діалог замість власника. Відповідає миттєво, без затримок.</p>
+      <ul class="feature-list">
+        <li>Відповідає на типові запитання (ціни, час, послуги) миттєво</li>
+        <li>Приймає заявки та запити на запис</li>
+        <li>Кваліфікує клієнта перед тим як передати власнику</li>
+        <li>Всі діалоги автоматично фіксуються в Google Sheets</li>
+      </ul>
+    </div>
+
+    <div class="product-block">
+      <div class="product-title">📊 Google Sheets — база даних</div>
+      <p class="product-desc">Всі дані з дзвінків і Telegram автоматично потрапляють у звичайну Google Таблицю. Нічого складного — власник бачить усе в одному місці.</p>
+      <ul class="feature-list">
+        <li>Ім'я клієнта, номер телефону, час звернення</li>
+        <li>Тема дзвінка або запиту</li>
+        <li>Статус — записаний, передзвонити, обробити</li>
+        <li>Підключається до вже існуючої таблиці клієнта якщо є</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 04 ТЕХНІЧНИЙ СТЕК -->
+  <div class="section">
+    <div class="section-number">04 — Технічний стек</div>
+    <h2 class="section-title">Як це <span class="dim">реально працює</span></h2>
+    <p>Для внутрішнього розуміння і пояснення інвесторам. Клієнту це знати не потрібно.</p>
+
+    <div class="tech-flow">
+      <div class="tech-flow-title">Архітектура голосового агента</div>
+      <div class="flow-steps">
+
+        <div class="flow-step">
+          <div class="flow-label">
+            <div class="flow-num">1</div>
+            <div class="flow-name">Дзвінок</div>
+          </div>
+          <div class="flow-detail">
+            Клієнт дзвонить на існуючий номер бізнесу. Оператор (Київстар, Лайфсел та інші) переадресовує дзвінок на SIP-номер який ми видаємо. Клієнт бізнесу нічого не змінює — той самий номер.
+            <br><span class="chip">Київстар / Лайфсел</span><span class="chip">SIP переадресація</span>
+          </div>
+          <div class="step-line"></div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-label">
+            <div class="flow-num">2</div>
+            <div class="flow-name">Обробка</div>
+          </div>
+          <div class="flow-detail">
+            ElevenLabs Conversational AI отримує аудіо, розуміє що говорить клієнт (STT), обробляє запит через LLM і відповідає живим голосом (TTS). Затримка — близько 1 секунди. Один сервіс замість трьох.
+            <br><span class="chip">ElevenLabs Conversational AI</span><span class="chip">STT + LLM + TTS</span>
+          </div>
+          <div class="step-line"></div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-label">
+            <div class="flow-num">3</div>
+            <div class="flow-name">Автоматизація</div>
+          </div>
+          <div class="flow-detail">
+            Після завершення дзвінка Make (automation) забирає дані і записує їх у Google Sheets. Одночасно власник отримує Telegram-сповіщення з коротким підсумком розмови.
+            <br><span class="chip">Make</span><span class="chip">Google Sheets</span><span class="chip">Telegram notify</span>
+          </div>
+          <div class="step-line"></div>
+        </div>
+
+        <div class="flow-step">
+          <div class="flow-label">
+            <div class="flow-num">4</div>
+            <div class="flow-name">Telegram-бот</div>
+          </div>
+          <div class="flow-detail">
+            Окремий потік через Make. Клієнт пише в Telegram — бот відповідає миттєво, дані також фіксуються в ту ж Google Таблицю.
+            <br><span class="chip">Make</span><span class="chip">Telegram Bot API</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <div class="section-number" style="margin-bottom: 16px;">Сценарії підключення телефонії</div>
+      <div class="tel-grid">
+        <div class="tel-card">
+          <div class="scenario">Сценарій А</div>
+          <h4>IP-АТС або Binotel</h4>
+          <p>Клієнт вже має IP-телефонію — підключаємо через SIP trunk напряму. Жодних змін з боку клієнта.</p>
+        </div>
+        <div class="tel-card">
+          <div class="scenario">Сценарій Б</div>
+          <h4>Звичайний мобільний номер</h4>
+          <p>Налаштовуємо переадресацію на нашому SIP-номері. Київстар і Лайфсел це підтримують. Номер клієнта залишається.</p>
+        </div>
+        <div class="tel-card">
+          <div class="scenario">Сценарій В</div>
+          <h4>Новий номер для реклами</h4>
+          <p>Видаємо окремий SIP-номер — клієнт використовує його в рекламі. Простий старт без змін в існуючій інфраструктурі.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 ЦІНОУТВОРЕННЯ -->
+  <div class="section">
+    <div class="section-number">05 — Ціноутворення</div>
+    <h2 class="section-title">Прозора <span class="dim">модель оплати</span></h2>
+
+    <div class="price-block">
+      <div class="price-amount">$500</div>
+      <div class="price-label">Разовий платіж за впровадження</div>
+      <div class="price-includes">
+        <span class="price-chip">🎙️ Голосовий агент</span>
+        <span class="price-chip">💬 Telegram-бот</span>
+        <span class="price-chip">📊 Google Sheets</span>
+        <span class="price-chip">🚀 Запуск і навчання</span>
+      </div>
+      <div class="price-note">
+        Після оплати клієнт отримує повністю налаштовану систему. <strong>Всі подальші витрати на сервіси несе клієнт самостійно.</strong>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px;">
+      <p style="color: var(--gray); font-size: 13px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1.5px; font-size: 11px;">Витрати на боці клієнта після впровадження</p>
+      <div class="costs-grid">
+        <div class="cost-item">
+          <div class="cost-name">ElevenLabs</div>
+          <div class="cost-val">~$5–22/міс</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-name">Make (автоматизація)</div>
+          <div class="cost-val">$9–16/міс</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-name">SIP-номер</div>
+          <div class="cost-val">~$5–10/міс</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-name">Разом</div>
+          <div class="cost-val">~$20–50/міс</div>
+        </div>
+      </div>
+      <p style="margin-top: 14px; font-size: 13px; color: var(--gray);">Для порівняння — живий адміністратор обходиться в <strong style="color: white;">$300–800/міс</strong>. Навіть з витратами на сервіси клієнт економить суттєво.</p>
+    </div>
+
+    <div style="margin-top: 32px; background: var(--card); border-radius: 12px; padding: 24px; border: 1px solid rgba(255,255,255,0.05);">
+      <div class="section-number" style="margin-bottom: 12px;">Стратегія зростання ціни</div>
+      <p style="font-size: 14px; color: var(--gray); margin: 0; line-height: 1.7;">
+        <strong style="color: white;">Зараз $500</strong> — швидке набирання перших клієнтів і формування портфоліо.<br>
+        <strong style="color: white;">Після 10 проєктів</strong> — підвищення до $800–1000.<br>
+        <strong style="color: white;">Після 20 проєктів з відгуками</strong> — преміум-позиціонування від $1500.
+      </p>
+    </div>
+  </div>
+
+  <!-- 06 ПРОЦЕС -->
+  <div class="section">
+    <div class="section-number">06 — Процес роботи</div>
+    <h2 class="section-title">Від заявки <span class="dim">до запуску</span></h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h4>Заявка</h4>
+          <p>Клієнт залишає контакт на сайті. Ніяких форм — тільки номер телефону або Telegram.</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h4>Розмова</h4>
+          <p>Особисто дзвоню або пишу. З'ясовую: який бізнес, які питання задають клієнти найчастіше, який розклад, як зараз відбувається запис.</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h4>Технічне завдання</h4>
+          <p>Формую скрипти діалогів, логіку переадресації, структуру таблиці. Клієнт погоджує до початку роботи.</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h4>Налаштування</h4>
+          <p>Налаштовую ElevenLabs агента, Telegram-бот, Make-автоматизації і Google Sheets. Клієнт нічого не робить.</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <h4>Тестування і запуск</h4>
+          <p>Тестую систему — дзвінки, бот, таблиця. Пояснюю клієнту як все працює. Підключаємо переадресацію і запускаємо.</p>
+        </div>
+        <div class="step-line"></div>
+      </div>
+      <div class="process-step">
+        <div class="step-num">06</div>
+        <div class="step-content">
+          <h4>Підтримка</h4>
+          <p>Після запуску доступний для питань. Якщо треба щось підправити в скриптах або логіці — допомагаю.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 КОНКУРЕНТНА ПЕРЕВАГА -->
+  <div class="section">
+    <div class="section-number">07 — Конкурентна перевага</div>
+    <h2 class="section-title">Чому <span class="dim">ReceptAI</span></h2>
+    <div class="adv-grid">
+      <div class="adv-card">
+        <div class="adv-icon">🇺🇦</div>
+        <h4>Локальний ринок</h4>
+        <p>Прямих конкурентів з такою моделлю в Україні майже немає. Закордонні продукти не знають ні ринку, ні мови, ні Telegram.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">✉️</div>
+        <h4>Telegram-фокус</h4>
+        <p>В Україні Telegram — основний канал комунікації для малого бізнесу. Жоден закордонний конкурент не будує навколо нього.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">🔑</div>
+        <h4>Послуга, не платформа</h4>
+        <p>Клієнт не купує доступ до конструктора і не вчиться. Він купує готовий результат — систему яка вже працює.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">📞</div>
+        <h4>Без болю з підключенням</h4>
+        <p>Клієнт не змінює свій номер і не купує нове обладнання. Переадресація на SIP займає 10 хвилин.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">⚡</div>
+        <h4>Один сервіс — повний стек</h4>
+        <p>ElevenLabs Conversational AI закриває STT, LLM і TTS в одному місці. Менше точок відмови, простіше підтримка.</p>
+      </div>
+      <div class="adv-card">
+        <div class="adv-icon">📈</div>
+        <h4>Масштабованість ціни</h4>
+        <p>Кожен новий кейс = портфоліо = підвищення ціни. Чим більше клієнтів, тим вища вартість наступного впровадження.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 РИНОК -->
+  <div class="section">
+    <div class="section-number">08 — Ринок</div>
+    <h2 class="section-title">Контекст <span class="dim">і можливість</span></h2>
+    <div class="market-stats">
+      <div class="stat-card">
+        <div class="stat-val">$47.5B</div>
+        <div class="stat-desc">Обсяг ринку AI voice агентів до 2034 року</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">8×</div>
+        <div class="stat-desc">Зростання фінансування ринку у 2024 vs 2023</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">93%</div>
+        <div class="stat-desc">Українських бізнесів вже використовують AI-інструменти</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">≈0</div>
+        <div class="stat-desc">Прямих локальних конкурентів з моделлю "під ключ"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 НАЗВИ -->
+  <div class="section">
+    <div class="section-number">09 — Варіанти назви</div>
+    <h2 class="section-title">Як ми <span class="dim">називаємось</span></h2>
+    <table class="names-table">
+      <thead>
+        <tr>
+          <th>Назва</th>
+          <th>Домен</th>
+          <th>Чому підходить</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ReceptAI</td>
+          <td>receptai.com.ua</td>
+          <td>Чисто, зрозуміло, міжнародно. Асоціація з рецепцією — саме те.</td>
+        </tr>
+        <tr>
+          <td>NoMiss</td>
+          <td>nomiss.com.ua</td>
+          <td>Б'є прямо в біль: жодного пропущеного. Запам'ятовується.</td>
+        </tr>
+        <tr>
+          <td>DzvoníAI</td>
+          <td>dzvoni.ai</td>
+          <td>По-українськи, ігриво, сучасно. Добре для рекламних кампаній.</td>
+        </tr>
+        <tr>
+          <td>RingAI</td>
+          <td>ringai.com.ua</td>
+          <td>Коротко, енергійно. Легко вимовити та написати.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 10 ЦІННОСТІ -->
+  <div class="section">
+    <div class="section-number">10 — Цінності бренду</div>
+    <h2 class="section-title">У що ми <span class="dim">віримо</span></h2>
+    <div class="values-list">
+      <div class="value-item">
+        <div class="value-icon">🎯</div>
+        <div>
+          <h4>Результат, а не технологія</h4>
+          <p>Ми не продаємо AI заради AI. Ми продаємо конкретний результат — більше записів, нуль пропущених дзвінків, менше витрат. Клієнт не повинен розуміти як це працює — він повинен відчути що це працює.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🤝</div>
+        <div>
+          <h4>Надійність</h4>
+          <p>Бізнес клієнта залежить від нашого рішення — це відповідальність. Ми налаштовуємо так, щоб система працювала стабільно, і залишаємось доступними якщо щось пішло не так.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">🇺🇦</div>
+        <div>
+          <h4>Локальність</h4>
+          <p>Ми розуміємо українського клієнта, ринок і ментальність. Ми не перекладаємо закордонні рішення — ми створюємо щось своє, для своїх, з урахуванням реалій українського малого бізнесу.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">⚡</div>
+        <div>
+          <h4>Простота</h4>
+          <p>Технологія має бути непомітною. Клієнт купує не "AI-агент на базі LLM" — він купує адміністратора який не спить. Ми говоримо просто про складне.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-icon">📈</div>
+        <div>
+          <h4>Зростання разом</h4>
+          <p>Ми починаємо з малого і ростемо разом з клієнтом. Чим більше бізнес клієнта — тим більша цінність нашого рішення. Це партнерство, а не разова угода.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11 TOV -->
+  <div class="section">
+    <div class="section-number">11 — Tone of Voice</div>
+    <h2 class="section-title">Як ми <span class="dim">говоримо</span></h2>
+    <div class="highlight">
+      <p><strong>Впевнений, але не зарозумілий. Дружній, але не фамільярний. Простий, але не примітивний.</strong></p>
+    </div>
+    <p>Ми говоримо як розумний друг який розбирається в технологіях і пояснює все зрозуміло — без жаргону, без зайвого пафосу.</p>
+
+    <div class="tov-split">
+      <div class="tov-col do">
+        <h4>✅ Як ми говоримо</h4>
+        <ul class="tov-list">
+          <li>Коротко і по суті</li>
+          <li>Конкретними цифрами та прикладами</li>
+          <li>Мовою клієнта, а не технаря</li>
+          <li>З розумінням болю клієнта</li>
+          <li>Впевнено, але без тиску</li>
+        </ul>
+        <div class="tov-example">"Ваш бізнес більше не пропускає жодного дзвінка. AI-адміністратор відповідає замість вас — 24/7, без вихідних."</div>
+      </div>
+      <div class="tov-col dont">
+        <h4>❌ Як ми НЕ говоримо</h4>
+        <ul class="tov-list">
+          <li>Складними термінами без пояснення</li>
+          <li>Перебільшеними обіцянками</li>
+          <li>Занадто офіційно і сухо</li>
+          <li>З тиском і маніпуляцією</li>
+        </ul>
+        <div class="tov-example">"Наш інноваційний AI-рішення на базі нейромережевих алгоритмів оптимізує ваші бізнес-процеси..."</div>
+      </div>
+    </div>
+
+    <div class="tone-contexts">
+      <div class="tone-ctx">
+        <div class="ctx-label">На сайті</div>
+        <div class="ctx-val">Переконливий + Спокійний</div>
+      </div>
+      <div class="tone-ctx">
+        <div class="ctx-label">В рекламі</div>
+        <div class="ctx-val">Енергійний + Провокаційний</div>
+      </div>
+      <div class="tone-ctx">
+        <div class="ctx-label">З клієнтом</div>
+        <div class="ctx-val">Теплий + Діловий</div>
+      </div>
+      <div class="tone-ctx">
+        <div class="ctx-label">В підтримці</div>
+        <div class="ctx-val">Спокійний + Рішучий</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12 БРЕНД -->
+  <div class="section">
+    <div class="section-number">12 — Візуальна естетика</div>
+    <h2 class="section-title">Як ми <span class="dim">виглядаємо</span></h2>
+
+    <div class="palette-row">
+      <div class="swatch">
+        <div class="swatch-color" style="background: #0A1628;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Obsidian Black</div>
+          <div class="swatch-hex">#0A1628 — Основний фон</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #0F4F4A;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Brunswick Green</div>
+          <div class="swatch-hex">#0F4F4A — Первинний</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #00C9A7;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Tropical Teal</div>
+          <div class="swatch-hex">#00C9A7 — Акцент / CTA</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #112233;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Deep Navy</div>
+          <div class="swatch-hex">#112233 — Картки</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background: #B0BEC5;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Dusty Sky</div>
+          <div class="swatch-hex">#B0BEC5 — Другорядний текст</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div class="adv-card">
+        <h4>Типографіка</h4>
+        <p>Заголовки — Syne Bold, великий кегль, мінімум слів. Тіло — DM Sans, легко читається. Акценти — бірюзовий для ключових цифр і CTA.</p>
+      </div>
+      <div class="adv-card">
+        <h4>Візуальний стиль</h4>
+        <p>Мінімалізм, темна тема, геометричні форми. Лінійні іконки в бірюзовому. Картки з легкою тінню. Жодних стокових фото людей в офісі.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 13 СЛОГАН -->
+  <div class="section">
+    <div class="section-number">13 — Головний слоган</div>
+    <h2 class="section-title">Одна фраза <span class="dim">яка все пояснює</span></h2>
+    <div class="slogan-block">
+      <div class="slogan-text">
+        "Ваш бізнес більше не пропускає жодного клієнта — <em>AI-адміністратор працює замість вас 24/7</em>"
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>ReceptAI · Project Brief v2.0 · 2025</span>
+    <span>Внутрішній документ · receptai.com.ua</span>
+  </div>
+
+</div>
+</body>
+</html>
