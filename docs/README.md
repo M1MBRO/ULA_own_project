@@ -7,7 +7,7 @@
 Pure HTML / CSS / JS — no build step, no framework. Hosts as static on GitHub Pages, Vercel, Netlify, anything.
 
 ```
-site/
+docs/
 ├── index.html       — Markup (Hero · For-who · Product · Latency · How · Voice library · Pricing · FAQ · CTA · Footer)
 ├── style.css        — Bland/Vapi/Resend/Raycast/ElevenLabs synthesis
 ├── script.js        — i18n (uk/en), live call simulator, voice library player, FAQ, form, reveal-on-scroll
@@ -15,6 +15,8 @@ site/
     ├── logo.svg
     └── favicon.svg
 ```
+
+> **Why `docs/` and not `site/`?** GitHub Pages serves directly from `/docs` without any CI workflow.
 
 ## Brand (per ReceptAI Brand Book v2.0)
 
@@ -36,17 +38,16 @@ site/
 ## Local dev
 
 ```bash
-cd site
+cd docs
 python3 -m http.server 5500
 # open http://localhost:5500
 ```
 
-## Deploy to GitHub Pages
+## Deploy
 
-1. Push to `main` (already done)
-2. Repo Settings → Pages → Source: Deploy from a branch
-3. Branch: `main` · Folder: `/site`
-4. Save. Available at `https://m1mbro.github.io/ULA_own_project/`
+GitHub Pages serves from `main` → `/docs`. Auto-deploys on push.
+
+Live: **https://m1mbro.github.io/ULA_own_project/**
 
 ## TODO (post-MVP)
 
