@@ -35,6 +35,15 @@
   --bubble-out-bg: var(--teal-soft);
   --bar-track: rgba(255, 255, 255, 0.08);
   --hero-vignette-center: rgba(10, 22, 40, 0.1);
+
+  /* Translucent tints — for chips, ghost buttons, hover states */
+  --tint: rgba(255, 255, 255, 0.05);
+  --tint-strong: rgba(255, 255, 255, 0.08);
+  /* Inset surfaces — sunken panels (transcripts, code, inputs, sheets) */
+  --inset: rgba(0, 0, 0, 0.28);
+  --inset-deep: rgba(0, 0, 0, 0.45);
+  /* Subtle row highlight (e.g. "new" sheet row) */
+  --row-new-bg: rgba(0, 201, 167, 0.10);
 }
 
 :root[data-theme="light"] {
@@ -69,6 +78,13 @@
   --shadow-card: 0 20px 60px -20px rgba(10, 22, 40, 0.18);
   --bubble-out-bg: rgba(0, 201, 167, 0.18);
   --bar-track: rgba(10, 22, 40, 0.10);
+
+  /* Light-theme tints — dark slivers over white */
+  --tint: rgba(10, 22, 40, 0.04);
+  --tint-strong: rgba(10, 22, 40, 0.07);
+  --inset: rgba(10, 22, 40, 0.04);
+  --inset-deep: rgba(10, 22, 40, 0.07);
+  --row-new-bg: rgba(0, 201, 167, 0.12);
 
   --display: 'Syne', system-ui, sans-serif;
   --body: 'DM Sans', system-ui, -apple-system, sans-serif;
@@ -239,7 +255,7 @@ input, textarea { font: inherit; color: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--tint);
   border: 1px solid var(--line);
   color: var(--text-2);
   transition: background 0.2s, color 0.2s, border-color 0.2s;
@@ -292,11 +308,11 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .btn--ghost {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--tint);
   color: var(--text);
   border: 1px solid var(--line-2);
 }
-.btn--ghost:hover { background: rgba(255, 255, 255, 0.07); border-color: var(--teal-border); }
+.btn--ghost:hover { background: var(--tint-strong); border-color: var(--teal-border); }
 
 .btn--block { width: 100%; }
 
@@ -380,7 +396,7 @@ input, textarea { font: inherit; color: inherit; }
   align-items: center;
   gap: 10px;
   padding: 6px 14px 6px 12px;
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--tint);
   border: 1px solid var(--line-2);
   border-radius: 999px;
   font-family: var(--mono);
@@ -586,7 +602,7 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .callcard__persona {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--tint);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 10px 14px;
@@ -661,7 +677,7 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .callcard__transcript {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--inset);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 12px 14px;
@@ -774,7 +790,7 @@ input, textarea { font: inherit; color: inherit; }
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   padding: 18px 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--inset);
   margin-top: auto;
 }
 
@@ -1257,7 +1273,7 @@ input, textarea { font: inherit; color: inherit; }
   flex-direction: column;
   gap: 8px;
   padding: 16px;
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--inset);
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
@@ -1271,7 +1287,7 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .bubble--in {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--tint-strong);
   border-bottom-left-radius: 4px;
   align-self: flex-start;
 }
@@ -1284,13 +1300,9 @@ input, textarea { font: inherit; color: inherit; }
   color: var(--text);
 }
 
-:root[data-theme="light"] .bubble--in {
-  background: rgba(10, 22, 40, 0.04);
-}
-
 /* Sheet preview */
 .card__sheet {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--inset);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 4px;
@@ -1318,13 +1330,13 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .row--new {
-  background: rgba(0, 201, 167, 0.06);
+  background: var(--row-new-bg);
   animation: rowFlash 3s ease-out;
 }
 
 @keyframes rowFlash {
-  0% { background: rgba(0, 201, 167, 0.25); }
-  100% { background: rgba(0, 201, 167, 0.06); }
+  0% { background: rgba(0, 201, 167, 0.28); }
+  100% { background: var(--row-new-bg); }
 }
 
 .pill {
@@ -1407,7 +1419,7 @@ input, textarea { font: inherit; color: inherit; }
   font-family: var(--mono);
   font-size: 12.5px;
   padding: 7px 12px;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--inset-deep);
   border: 1px solid var(--line);
   border-radius: 8px;
   color: var(--teal);
@@ -2128,7 +2140,7 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .f input {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--inset);
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 14px 16px;
@@ -2137,24 +2149,13 @@ input, textarea { font: inherit; color: inherit; }
   transition: border-color 0.2s, background 0.2s;
 }
 
-:root[data-theme="light"] .f input {
-  background: rgba(10, 22, 40, 0.03);
-}
-
-:root[data-theme="light"] .step__code,
-:root[data-theme="light"] .callcard__transcript,
-:root[data-theme="light"] .card__chat,
-:root[data-theme="light"] .card__sheet {
-  background: rgba(10, 22, 40, 0.04);
-}
-
 .f input::placeholder { color: var(--text-4); }
 
 .f input:focus {
   outline: none;
   border-color: var(--teal-border);
-  background: rgba(0, 0, 0, 0.5);
-  box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.1);
+  background: var(--inset-deep);
+  box-shadow: 0 0 0 3px rgba(0, 201, 167, 0.12);
 }
 
 .form__note {
