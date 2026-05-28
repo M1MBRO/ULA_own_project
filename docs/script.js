@@ -373,6 +373,29 @@
     },
   };
 
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // Theme toggle (light/dark)
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  const THEME_KEY = 'receptai_theme';
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  const savedTheme = localStorage.getItem(THEME_KEY);
+  let currentTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+
+  function applyTheme(theme) {
+    currentTheme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(THEME_KEY, theme);
+  }
+
+  applyTheme(currentTheme);
+
+  const themeBtn = document.getElementById('themeToggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    });
+  }
+
   const LANG_KEY = 'receptai_lang';
   let currentLang = localStorage.getItem(LANG_KEY) || 'uk';
 

@@ -2,7 +2,8 @@
    ReceptAI — v2 (Bland · Vapi · Resend · Raycast · ElevenLabs)
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-:root {
+:root,
+:root[data-theme="dark"] {
   --bg: #06101F;
   --bg-1: #0A1628;
   --bg-2: #0E1A30;
@@ -25,6 +26,45 @@
   --text-4: #56657a;
 
   --red: #FF5A5A;
+
+  --hero-base: #0A1628;
+  --hero-wave: #00C9A7;
+  --hero-wave-opacity: 0.42;
+  --nav-pill-bg: rgba(13, 26, 46, 0.7);
+  --shadow-card: 0 30px 80px -20px rgba(0, 0, 0, 0.5);
+  --bubble-out-bg: var(--teal-soft);
+}
+
+:root[data-theme="light"] {
+  --bg: #F5F7F8;
+  --bg-1: #FFFFFF;
+  --bg-2: #ECEFF2;
+  --bg-3: #0F4F4A;
+  --surface: #FFFFFF;
+  --surface-2: #F0F3F5;
+  --line: rgba(10, 22, 40, 0.08);
+  --line-2: rgba(10, 22, 40, 0.16);
+  --line-3: rgba(10, 22, 40, 0.28);
+
+  --teal: #00A589;
+  --teal-2: #00C9A7;
+  --teal-soft: rgba(0, 201, 167, 0.12);
+  --teal-border: rgba(0, 165, 137, 0.35);
+  --teal-glow: rgba(0, 201, 167, 0.30);
+
+  --text: #0A1628;
+  --text-2: #2B3A4D;
+  --text-3: #5A6B7D;
+  --text-4: #8A9AAB;
+
+  --red: #E04545;
+
+  --hero-base: #FAFCFC;
+  --hero-wave: #00C9A7;
+  --hero-wave-opacity: 0.95;
+  --nav-pill-bg: rgba(255, 255, 255, 0.85);
+  --shadow-card: 0 20px 60px -20px rgba(10, 22, 40, 0.18);
+  --bubble-out-bg: rgba(0, 201, 167, 0.18);
 
   --display: 'Syne', system-ui, sans-serif;
   --body: 'DM Sans', system-ui, -apple-system, sans-serif;
@@ -93,8 +133,8 @@ input, textarea { font: inherit; color: inherit; }
 .nav__pill {
   display: flex;
   align-items: center;
-  gap: 28px;
-  background: rgba(13, 26, 46, 0.7);
+  gap: 22px;
+  background: var(--nav-pill-bg);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border: 1px solid var(--line-2);
@@ -187,6 +227,34 @@ input, textarea { font: inherit; color: inherit; }
 
 .lang__sep { color: var(--text-4); }
 
+/* Theme toggle */
+.themer {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  color: var(--text-2);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.themer:hover {
+  color: var(--teal);
+  background: var(--teal-soft);
+  border-color: var(--teal-border);
+}
+
+.themer svg { width: 16px; height: 16px; }
+
+.themer__sun, .themer__moon { display: none; }
+:root[data-theme="dark"] .themer__sun { display: block; }
+:root[data-theme="light"] .themer__moon { display: block; }
+:root:not([data-theme="light"]) .themer__sun { display: block; }
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    BUTTONS
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -257,53 +325,44 @@ input, textarea { font: inherit; color: inherit; }
   justify-content: flex-start;
 }
 
-/* Animated mesh gradient bg (Raycast) */
-.mesh {
-  position: absolute;
-  inset: -10%;
-  background:
-    radial-gradient(60% 50% at 75% 30%, rgba(0, 201, 167, 0.18), transparent 70%),
-    radial-gradient(50% 50% at 15% 85%, rgba(15, 79, 74, 0.45), transparent 70%),
-    radial-gradient(70% 60% at 100% 100%, rgba(0, 201, 167, 0.12), transparent 70%);
-  filter: blur(40px);
-  z-index: -3;
-  animation: meshFloat 18s ease-in-out infinite alternate;
+/* Hero background — halftone wave (the "two backgrounds" the user provided) */
+.hero {
+  background: var(--hero-base);
 }
 
-@keyframes meshFloat {
-  0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-3%, -2%) scale(1.05); }
-}
-
-.dotgrid {
+.hero__wave {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 1px, transparent 1.5px);
-  background-size: 28px 28px;
-  mask-image: radial-gradient(ellipse 75% 60% at 50% 30%, #000 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 30%, #000 30%, transparent 80%);
+  background-color: var(--hero-wave);
+  -webkit-mask-image: url('assets/hero-wave.svg');
+  mask-image: url('assets/hero-wave.svg');
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  opacity: var(--hero-wave-opacity);
   z-index: -2;
+  pointer-events: none;
+  transition: opacity 0.5s, background-color 0.5s;
 }
 
-.halo {
+/* Soft vignette so center stays readable */
+.hero__vignette {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, var(--hero-base) 95%);
   z-index: -1;
   pointer-events: none;
+  opacity: 0.85;
+  transition: background 0.5s;
 }
-.halo--1 {
-  width: 600px; height: 600px;
-  background: var(--teal-glow);
-  top: -200px; right: -150px;
-  opacity: 0.35;
-}
-.halo--2 {
-  width: 500px; height: 500px;
-  background: rgba(15, 79, 74, 0.5);
-  bottom: -200px; left: -100px;
-  opacity: 0.5;
+
+:root[data-theme="light"] .hero__vignette {
+  background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(250, 252, 252, 0.4) 0%, var(--hero-base) 100%);
+  opacity: 0.92;
 }
 
 .hero__inner {
@@ -786,7 +845,7 @@ input, textarea { font: inherit; color: inherit; }
   letter-spacing: -2px;
   line-height: 1;
   margin-bottom: 8px;
-  background: linear-gradient(180deg, #fff 0%, #a8b6c4 100%);
+  background: linear-gradient(180deg, var(--text) 0%, var(--text-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -814,6 +873,10 @@ input, textarea { font: inherit; color: inherit; }
   position: relative;
 }
 
+:root[data-theme="light"] .section--dark {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);
+}
+
 .section--dark::before {
   content: '';
   position: absolute;
@@ -822,6 +885,12 @@ input, textarea { font: inherit; color: inherit; }
     radial-gradient(40% 40% at 80% 20%, rgba(0, 201, 167, 0.08), transparent),
     radial-gradient(40% 40% at 10% 90%, rgba(15, 79, 74, 0.15), transparent);
   pointer-events: none;
+}
+
+:root[data-theme="light"] .section--dark::before {
+  background:
+    radial-gradient(40% 40% at 80% 20%, rgba(0, 201, 167, 0.06), transparent),
+    radial-gradient(40% 40% at 10% 90%, rgba(0, 201, 167, 0.08), transparent);
 }
 
 .section--dark > * { position: relative; }
@@ -1204,11 +1273,15 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .bubble--out {
-  background: var(--teal-soft);
+  background: var(--bubble-out-bg);
   border: 1px solid var(--teal-border);
   border-bottom-right-radius: 4px;
   align-self: flex-end;
   color: var(--text);
+}
+
+:root[data-theme="light"] .bubble--in {
+  background: rgba(10, 22, 40, 0.04);
 }
 
 /* Sheet preview */
@@ -1670,7 +1743,7 @@ input, textarea { font: inherit; color: inherit; }
   letter-spacing: -6px;
   line-height: 1;
   color: var(--text);
-  background: linear-gradient(180deg, #fff 0%, var(--teal) 100%);
+  background: linear-gradient(180deg, var(--text) 0%, var(--teal) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -2035,6 +2108,17 @@ input, textarea { font: inherit; color: inherit; }
   transition: border-color 0.2s, background 0.2s;
 }
 
+:root[data-theme="light"] .f input {
+  background: rgba(10, 22, 40, 0.03);
+}
+
+:root[data-theme="light"] .step__code,
+:root[data-theme="light"] .callcard__transcript,
+:root[data-theme="light"] .card__chat,
+:root[data-theme="light"] .card__sheet {
+  background: rgba(10, 22, 40, 0.04);
+}
+
 .f input::placeholder { color: var(--text-4); }
 
 .f input:focus {
@@ -2097,6 +2181,10 @@ input, textarea { font: inherit; color: inherit; }
   border-top: 1px solid var(--line);
   background: var(--bg-1);
   padding: 64px 0 32px;
+}
+
+:root[data-theme="light"] .foot {
+  background: var(--bg-2);
 }
 
 .foot__inner {
