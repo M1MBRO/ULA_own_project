@@ -377,9 +377,9 @@
   // Theme toggle (light/dark)
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   const THEME_KEY = 'receptai_theme';
-  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
   const savedTheme = localStorage.getItem(THEME_KEY);
-  let currentTheme = savedTheme || (prefersLight ? 'light' : 'dark');
+  // Light is now the default. User can opt into dark via toggle.
+  let currentTheme = savedTheme || 'light';
 
   function applyTheme(theme) {
     currentTheme = theme;
