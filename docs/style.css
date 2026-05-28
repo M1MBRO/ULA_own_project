@@ -248,13 +248,13 @@ input, textarea { font: inherit; color: inherit; }
 
 .hero {
   position: relative;
-  padding: 150px 0 0;
+  padding: 96px 0 0;
   isolation: isolate;
   overflow: hidden;
-  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /* Animated mesh gradient bg (Raycast) */
@@ -308,10 +308,11 @@ input, textarea { font: inherit; color: inherit; }
 
 .hero__inner {
   display: grid;
-  grid-template-columns: 1.2fr 0.85fr;
-  gap: 60px;
-  align-items: center;
-  padding-bottom: 80px;
+  grid-template-columns: 1.15fr 0.9fr;
+  gap: 44px;
+  align-items: start;
+  padding: 24px 0 48px;
+  flex: 1;
 }
 
 /* Badge — pill with live dot */
@@ -324,10 +325,10 @@ input, textarea { font: inherit; color: inherit; }
   border: 1px solid var(--line-2);
   border-radius: 999px;
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 11.5px;
   letter-spacing: 0.5px;
   color: var(--text-2);
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 
 .badge__dot {
@@ -342,14 +343,14 @@ input, textarea { font: inherit; color: inherit; }
   50% { box-shadow: 0 0 0 6px rgba(0, 201, 167, 0); }
 }
 
-/* MASSIVE title (Bland scale) */
+/* Title — Bland-feel but viewport-aware */
 .hero__title {
   font-family: var(--display);
-  font-size: clamp(48px, 8vw, 104px);
+  font-size: clamp(32px, 4.6vw, 56px);
   font-weight: 700;
-  line-height: 0.96;
-  letter-spacing: -3.5px;
-  margin-bottom: 30px;
+  line-height: 1.04;
+  letter-spacing: -1.6px;
+  margin-bottom: 18px;
 }
 
 .hero__word {
@@ -387,11 +388,11 @@ input, textarea { font: inherit; color: inherit; }
 }
 
 .hero__sub {
-  font-size: 18px;
+  font-size: 16px;
   color: var(--text-2);
   max-width: 520px;
-  margin-bottom: 36px;
-  line-height: 1.55;
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 .hero__sub strong { color: var(--text); font-weight: 600; }
@@ -399,7 +400,7 @@ input, textarea { font: inherit; color: inherit; }
 .hero__actions {
   display: flex;
   gap: 12px;
-  margin-bottom: 32px;
+  margin-bottom: 22px;
   flex-wrap: wrap;
 }
 
@@ -407,7 +408,7 @@ input, textarea { font: inherit; color: inherit; }
   list-style: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 16px;
 }
 
 .hero__bullets li {
@@ -442,12 +443,15 @@ input, textarea { font: inherit; color: inherit; }
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--line-2);
   border-radius: var(--radius-xl);
-  padding: 26px;
+  padding: 20px;
   position: relative;
   overflow: hidden;
   box-shadow:
     0 30px 80px -20px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  max-width: 460px;
+  width: 100%;
+  justify-self: end;
 }
 
 .callcard::before {
@@ -462,7 +466,7 @@ input, textarea { font: inherit; color: inherit; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
   position: relative;
   z-index: 1;
 }
@@ -499,7 +503,7 @@ input, textarea { font: inherit; color: inherit; }
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin-bottom: 22px;
+  margin-bottom: 14px;
   position: relative;
   z-index: 1;
 }
@@ -512,9 +516,9 @@ input, textarea { font: inherit; color: inherit; }
 
 .callcard__number {
   font-family: var(--display);
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
   color: var(--text);
 }
 
@@ -522,8 +526,8 @@ input, textarea { font: inherit; color: inherit; }
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 14px 16px;
-  margin-bottom: 18px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
   position: relative;
   z-index: 1;
 }
@@ -563,8 +567,8 @@ input, textarea { font: inherit; color: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: 2px;
-  height: 50px;
-  margin-bottom: 18px;
+  height: 36px;
+  margin-bottom: 12px;
   position: relative;
   z-index: 1;
 }
@@ -597,18 +601,18 @@ input, textarea { font: inherit; color: inherit; }
   background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 14px 16px;
-  min-height: 70px;
-  font-size: 13.5px;
-  line-height: 1.5;
+  padding: 12px 14px;
+  min-height: 60px;
+  font-size: 12.5px;
+  line-height: 1.45;
   color: var(--text-2);
-  margin-bottom: 22px;
+  margin-bottom: 14px;
   display: flex;
   flex-direction: column;
   gap: 6px;
   position: relative;
   z-index: 1;
-  max-height: 130px;
+  max-height: 96px;
   overflow-y: auto;
 }
 
@@ -648,8 +652,8 @@ input, textarea { font: inherit; color: inherit; }
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  width: 76px;
-  height: 76px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   background: var(--teal);
   color: var(--bg);
@@ -690,23 +694,25 @@ input, textarea { font: inherit; color: inherit; }
 .callcard__hint {
   text-align: center;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10.5px;
   letter-spacing: 1px;
   color: var(--text-4);
-  margin-top: 12px;
+  margin-top: 10px;
   text-transform: uppercase;
   position: relative;
   z-index: 1;
 }
+
+.callcard__cta svg { width: 22px; height: 22px; }
 
 /* ━━━ Tech stack strip (Bland-style, but our tech) ━━━ */
 
 .techstrip {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  padding: 24px 0;
+  padding: 18px 0;
   background: rgba(0, 0, 0, 0.25);
-  margin-top: 60px;
+  margin-top: auto;
 }
 
 .techstrip__inner {
