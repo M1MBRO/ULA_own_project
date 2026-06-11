@@ -35,6 +35,15 @@ MIN_COMP_RATIO = 0.005      # прибирати дрібні уламки < ц�
 ADD_KEYLINE    = False      # тонка сіра лінія ЗОВНІ білого (як ледь видно на 1-й картинці)
 KEYLINE_COLOR  = (190, 190, 190, 255)
 CUT_COLOR      = (255, 0, 255, 255)  # колір лінії різу (стандартний magenta)
+
+# Прямокутні наліпки (для дизайнів на білому тлі, де die-cut по силуету не годиться,
+# напр. фото футболки). Файли, чия назва містить будь-яке зі слів нижче, обробляються
+# як прямокутник із заокругленими кутами, що зберігає весь дизайн.
+RECT_STICKERS    = ["snoopy"]
+RECT_CORNER_RATIO = 0.08    # радіус заокруглення кутів (частка від короткої сторони)
+RECT_INK_MARGIN   = 0.05    # білий відступ навколо дизайну (частка від короткої сторони)
+INK_BRIGHT_MAX    = 225     # яскравіше за це + ненасичене = фон (тканина)
+INK_SAT_MIN       = 35      # насиченість, вище якої піксель вважається "фарбою"
 # ─────────────────────────────────────────────────────────────────
 
 HERE      = os.path.dirname(os.path.abspath(__file__))
@@ -182,6 +191,57 @@ def make_sticker(in_path: str):
     return out_png
 
 
+def make_rect_sticker(in_path: str):
+    """Прямокутна наліпка з заокругленими кутами для дизайну на білому тлі."""
+    name = os.path.splitext(os.path.basename(in_path))[0]
+    src = Image.open(in_path).convert("RGB")
+    arr = np.asarray(src).astype(np.int16)
+    bright = arr.mean(axis=2)
+    sat = arr.max(axis=2) - arr.min(axis=2)
+    ink = (sat >= INK_SAT_MIN) | (bright < INK_BRIGHT_MAX)  # фарба/темне = дизайн
+    # відкидаємо дрібні фрагменти тканини (складки, язички, ґудзики)
+    lbl, n = label(ink)
+    if n > 1:
+        sizes = np.bincount(lbl.ravel()); sizes[0] = 0
+        keep = {i for i, s in enumerate(sizes) if s >= sizes.max() * MIN_COMP_RATIO}
+        ink = np.isin(lbl, list(keep))
+    ys, xs = np.where(ink)
+    if len(xs) == 0:
+        return None
+    # обрізаємо до bbox дизайну (відсікає комір/складки тканини по краях)
+    x0, x1 = xs.min(), xs.max() + 1
+    y0, y1 = ys.min(), ys.max() + 1
+    design = src.crop((x0, y0, x1, y1)).convert("RGBA")
+
+    w, h = design.size
+    margin = round(min(w, h) * RECT_INK_MARGIN)
+    cw, ch = w + 2 * margin, h + 2 * margin
+    # біле полотно з дизайном по центру
+    canvas = Image.new("RGBA", (cw, ch), (255, 255, 255, 255))
+    canvas.paste(design, (margin, margin))
+
+    # заокруглені кути
+    radius = round(min(cw, ch) * RECT_CORNER_RATIO)
+    mask = Image.new("L", (cw, ch), 0)
+    ImageDraw.Draw(mask).rounded_rectangle([0, 0, cw - 1, ch - 1],
+                                           radius=radius, fill=255)
+    canvas.putalpha(mask)
+
+    # масштаб під друк + bleed
+    scale = TARGET_LONG_PX / max(cw, ch)
+    canvas = canvas.resize((max(1, round(cw * scale)), max(1, round(ch * scale))),
+                           Image.LANCZOS)
+    fw, fh = canvas.size
+    final = Image.new("RGBA", (fw + 2 * BLEED_PX, fh + 2 * BLEED_PX), (0, 0, 0, 0))
+    final.paste(canvas, (BLEED_PX, BLEED_PX), canvas)
+
+    out_png = os.path.join(OUT_PNG, name + ".png")
+    final.save(out_png, dpi=(DPI, DPI))
+    export_dieline(final, name)
+    print(f"  ✓ {name}: [прямокутна] size={final.size}")
+    return out_png
+
+
 def export_dieline(final: Image.Image, name: str):
     """Контур наліпки як лінія різу: PNG (накреслений) + SVG (вектор)."""
     mask = (np.array(final.getchannel("A")) > 8).astype(np.uint8)
@@ -251,7 +311,13 @@ def main():
     out_pngs = []
     for f in files:
         try:
-            out_pngs.append(make_sticker(f))
+            base = os.path.basename(f).lower()
+            if any(k in base for k in RECT_STICKERS):
+                res = make_rect_sticker(f)
+            else:
+                res = make_sticker(f)
+            if res:
+                out_pngs.append(res)
         except Exception as e:
             print(f"  ✗ {os.path.basename(f)}: {e}")
     build_contact_sheet(out_pngs)
