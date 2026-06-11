@@ -40,6 +40,7 @@ CUT_COLOR      = (255, 0, 255, 255)  # колір лінії різу (стан�
 # напр. фото футболки). Файли, чия назва містить будь-яке зі слів нижче, обробляються
 # як прямокутник із заокругленими кутами, що зберігає весь дизайн.
 RECT_STICKERS    = ["snoopy"]
+RECT_FULL_PHOTO  = ["snoopy"]  # підмножина RECT_STICKERS: брати ВСЕ фото без обрізки
 RECT_CORNER_RATIO = 0.08    # радіус заокруглення кутів (частка від короткої сторони)
 RECT_INK_MARGIN   = 0.05    # білий відступ навколо дизайну (частка від короткої сторони)
 INK_BRIGHT_MAX    = 225     # яскравіше за це + ненасичене = фон (тканина)
@@ -194,24 +195,30 @@ def make_sticker(in_path: str):
 def make_rect_sticker(in_path: str):
     """Прямокутна наліпка з заокругленими кутами для дизайну на білому тлі."""
     name = os.path.splitext(os.path.basename(in_path))[0]
+    base = os.path.basename(in_path).lower()
     src = Image.open(in_path).convert("RGB")
-    arr = np.asarray(src).astype(np.int16)
-    bright = arr.mean(axis=2)
-    sat = arr.max(axis=2) - arr.min(axis=2)
-    ink = (sat >= INK_SAT_MIN) | (bright < INK_BRIGHT_MAX)  # фарба/темне = дизайн
-    # відкидаємо дрібні фрагменти тканини (складки, язички, ґудзики)
-    lbl, n = label(ink)
-    if n > 1:
-        sizes = np.bincount(lbl.ravel()); sizes[0] = 0
-        keep = {i for i, s in enumerate(sizes) if s >= sizes.max() * MIN_COMP_RATIO}
-        ink = np.isin(lbl, list(keep))
-    ys, xs = np.where(ink)
-    if len(xs) == 0:
-        return None
-    # обрізаємо до bbox дизайну (відсікає комір/складки тканини по краях)
-    x0, x1 = xs.min(), xs.max() + 1
-    y0, y1 = ys.min(), ys.max() + 1
-    design = src.crop((x0, y0, x1, y1)).convert("RGBA")
+
+    if any(k in base for k in RECT_FULL_PHOTO):
+        # беремо все фото без обрізки
+        design = src.convert("RGBA")
+    else:
+        arr = np.asarray(src).astype(np.int16)
+        bright = arr.mean(axis=2)
+        sat = arr.max(axis=2) - arr.min(axis=2)
+        ink = (sat >= INK_SAT_MIN) | (bright < INK_BRIGHT_MAX)  # фарба/темне = дизайн
+        # відкидаємо дрібні фрагменти тканини (складки, язички, ґудзики)
+        lbl, n = label(ink)
+        if n > 1:
+            sizes = np.bincount(lbl.ravel()); sizes[0] = 0
+            keep = {i for i, s in enumerate(sizes) if s >= sizes.max() * MIN_COMP_RATIO}
+            ink = np.isin(lbl, list(keep))
+        ys, xs = np.where(ink)
+        if len(xs) == 0:
+            return None
+        # обрізаємо до bbox дизайну (відсікає комір/складки тканини по краях)
+        x0, x1 = xs.min(), xs.max() + 1
+        y0, y1 = ys.min(), ys.max() + 1
+        design = src.crop((x0, y0, x1, y1)).convert("RGBA")
 
     w, h = design.size
     margin = round(min(w, h) * RECT_INK_MARGIN)
