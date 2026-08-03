@@ -162,6 +162,34 @@
   .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;font-size:12.5px;color:var(--muted)}
   .legend span{display:inline-flex;align-items:center;gap:6px}
   .dot{width:10px;height:10px;border-radius:50%}
+
+  /* Portions control */
+  .portions{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    background:var(--cream);border:1px solid #e7d8bf;border-radius:14px;
+    padding:12px 16px;margin:0 0 16px
+  }
+  .portions__label{font-weight:700;font-size:14px;color:var(--ink)}
+  .portions__ctrl{display:flex;align-items:center;gap:10px}
+  .portions__ctrl button{
+    width:38px;height:38px;border-radius:11px;border:0;cursor:pointer;
+    background:var(--tomato);color:#fff;font-size:22px;font-weight:700;line-height:1;
+    display:grid;place-items:center
+  }
+  .portions__ctrl button:active{transform:translateY(1px)}
+  #pVal{font-size:26px;font-weight:800;min-width:34px;text-align:center;font-variant-numeric:tabular-nums}
+  .portions__quick{display:flex;gap:6px;margin-left:auto}
+  .portions__quick button{
+    min-width:34px;height:32px;border-radius:9px;border:1px solid #e0cfae;background:#fff;
+    cursor:pointer;font-weight:700;font-size:13px;color:var(--muted);padding:0 8px
+  }
+  .portions__quick button.active{background:var(--tomato);color:#fff;border-color:var(--tomato)}
+  .cost-total{
+    margin-top:16px;padding-top:14px;border-top:2px solid var(--line);
+    font-size:20px;font-weight:800;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap
+  }
+  .cost-total .big{color:var(--tomato-d);font-size:26px}
+  .cost .amt{color:var(--basil-d);min-width:66px}
   footer{text-align:center;color:var(--muted);font-size:13px;margin-top:40px}
   .toggle-theme{
     position:fixed;top:16px;right:16px;background:var(--card);border:1px solid var(--line);
@@ -186,7 +214,7 @@
     <p class="lead">Ніжна, кремова паста з червоним песто, пармезаном і шинкою. Готується приблизно за 25 хвилин.</p>
     <div class="meta">
       <div class="chip">⏱️ <span>~25 хв</span></div>
-      <div class="chip">🍽️ <b>2–3</b><span>порції</span></div>
+      <div class="chip">🍽️ <b id="chipP">3</b><span>порції</span></div>
       <div class="chip">🔥 <span>Легко</span></div>
     </div>
   </header>
@@ -195,18 +223,23 @@
     <!-- Ingredients -->
     <section class="card">
       <h2><span class="ico">🧺</span> Інгредієнти</h2>
-      <p class="sub">На 2–3 порції</p>
-      <ul class="list">
-        <li><span class="amt">300 г</span><span class="nm">Паста</span></li>
-        <li><span class="amt">100 г</span><span class="nm">Шинка <span class="note">— дрібно нарізана</span></span></li>
-        <li><span class="amt">100 г</span><span class="nm">Пармезан <span class="note">— натертий</span></span></li>
-        <li><span class="amt">2 шт</span><span class="nm">Червона цибуля <span class="note">— дрібно кубиками</span></span></li>
-        <li><span class="amt">600 мл</span><span class="nm">Вершки</span></li>
-        <li><span class="amt">1 ст.л.</span><span class="nm">Песто «Россо» <span class="note">— за смаком більше</span></span></li>
-        <li><span class="amt">5–6 ст.л.</span><span class="nm">Борошно <span class="note">— для загущення</span></span></li>
-        <li><span class="amt">трохи</span><span class="nm">Вода з-під пасти</span></li>
-        <li><span class="amt">трохи</span><span class="nm">Олія <span class="note">— для смаження</span></span></li>
-      </ul>
+      <p class="sub" id="ingSub">На 3 порції</p>
+      <div class="portions">
+        <span class="portions__label">Порцій</span>
+        <div class="portions__ctrl">
+          <button id="pMinus" aria-label="менше">−</button>
+          <span id="pVal">3</span>
+          <button id="pPlus" aria-label="більше">+</button>
+        </div>
+        <div class="portions__quick" id="pQuick">
+          <button data-p="1">1</button>
+          <button data-p="2">2</button>
+          <button data-p="3">3</button>
+          <button data-p="4">4</button>
+          <button data-p="6">6</button>
+        </div>
+      </div>
+      <ul class="list" id="ingList"></ul>
       <h2 style="margin-top:22px"><span class="ico">🧂</span> Спеції</h2>
       <p class="sub">Приправити соус до смаку</p>
       <div class="spices">
@@ -275,6 +308,18 @@
       </div>
     </section>
   </div>
+
+  <!-- Cost -->
+  <section class="card cost" style="margin-top:22px">
+    <h2><span class="ico">💰</span> Орієнтовна вартість</h2>
+    <p class="sub">Приблизні ціни АТБ (грн) · за <b id="costPortions">3</b> порції</p>
+    <p class="shop-note">⚠️ Це <b>орієнтовні</b> ціни (~2026 р.), не актуальні залишки твого магазину. Рахується вартість <b>використаної кількості</b> — купуєш ти цілими упаковками, тож разова покупка вийде дорожчою (особливо пармезан і песто, які залишаться на потім).</p>
+    <ul class="list cost" id="costList"></ul>
+    <div class="cost-total">
+      Разом: <span class="big"><span id="costTotal">0</span> грн</span>
+      <span class="note" id="costPer"></span>
+    </div>
+  </section>
 
   <!-- Steps with timers -->
   <section class="steps">
@@ -361,6 +406,86 @@
 </div>
 
 <script>
+// ---- Portions & cost calculator ----
+const BASE_PORTIONS = 3;               // базовий рецепт розрахований на 3 порції
+let portions = 3;
+
+// base = кількість на BASE_PORTIONS порцій; price = грн за цю кількість (орієнтовно, АТБ)
+const DATA = [
+  {n:'Паста',            kind:'g',    base:300, price:18, note:''},
+  {n:'Шинка',            kind:'g',    base:100, price:18, note:'дрібно нарізана'},
+  {n:'Пармезан',         kind:'g',    base:100, price:110, note:'натертий'},
+  {n:'Червона цибуля',   kind:'pcs',  base:2,   price:6,  note:'дрібно кубиками'},
+  {n:'Вершки',           kind:'ml',   base:600, price:78, note:'20–30%'},
+  {n:'Песто «Россо»',    kind:'tbsp', base:1,   price:12, note:'за смаком більше'},
+  {n:'Борошно',          kind:'tbsp', base:5.5, price:2,  note:'для загущення'},
+  {n:'Спеції',           kind:'taste',base:0,   price:5,  note:'паприка, перець, часник. порошок, томат. сіль'},
+  {n:'Олія',             kind:'some', base:0,   price:2,  note:'для смаження'},
+  {n:'Вода з-під пасти', kind:'some', base:0,   price:0,  note:''},
+  {n:'Сіль',             kind:'taste',base:0,   price:0,  note:'вже є вдома ✓'},
+];
+
+function fmtAmt(kind, qty){
+  if(kind==='some')  return 'трохи';
+  if(kind==='taste') return 'до смаку';
+  if(kind==='pcs')   return Math.max(1, Math.round(qty)) + ' шт';
+  if(kind==='tbsp'){ const v=Math.round(qty*2)/2; return (Number.isInteger(v)?v:v.toFixed(1)) + ' ст.л.'; }
+  if(kind==='ml')    return Math.round(qty/10)*10 + ' мл';
+  if(kind==='g')     return Math.round(qty/5)*5 + ' г';
+  return qty;
+}
+
+function render(){
+  const f = portions / BASE_PORTIONS;
+  const ingList = document.getElementById('ingList');
+  const costList = document.getElementById('costList');
+  ingList.innerHTML = '';
+  costList.innerHTML = '';
+  let total = 0;
+
+  DATA.forEach(d=>{
+    const qty = fmtAmt(d.kind, d.base * f);
+    // список інгредієнтів (без «вода/сіль» окремих цінових нюансів — показуємо все)
+    ingList.insertAdjacentHTML('beforeend',
+      `<li><span class="amt">${qty}</span><span class="nm">${d.n}${d.note?` <span class="note">— ${d.note}</span>`:''}</span></li>`);
+
+    // вартість
+    const cost = Math.round(d.price * f);
+    total += cost;
+    const priceTxt = d.price===0 ? '<span class="note">0 грн</span>' : `${cost} грн`;
+    costList.insertAdjacentHTML('beforeend',
+      `<li><span class="amt" style="min-width:66px">${priceTxt}</span><span class="nm">${d.n} <span class="note">(${qty})</span></span></li>`);
+  });
+
+  const per = Math.round(total / portions);
+  document.getElementById('costTotal').textContent = total;
+  document.getElementById('costPer').textContent = `≈ ${per} грн / порція`;
+  document.getElementById('costPortions').textContent = portions;
+  document.getElementById('pVal').textContent = portions;
+  document.getElementById('chipP').textContent = portions;
+  document.getElementById('ingSub').textContent = `На ${portions} ${plural(portions)}`;
+
+  document.querySelectorAll('#pQuick button').forEach(b=>{
+    b.classList.toggle('active', +b.dataset.p === portions);
+  });
+}
+
+function plural(n){
+  const a=n%10, b=n%100;
+  if(a===1 && b!==11) return 'порцію';
+  if(a>=2 && a<=4 && (b<12||b>14)) return 'порції';
+  return 'порцій';
+}
+
+function setPortions(n){ portions = Math.min(12, Math.max(1, n)); render(); }
+
+document.getElementById('pMinus').addEventListener('click', ()=>setPortions(portions-1));
+document.getElementById('pPlus').addEventListener('click',  ()=>setPortions(portions+1));
+document.querySelectorAll('#pQuick button').forEach(b=>{
+  b.addEventListener('click', ()=>setPortions(+b.dataset.p));
+});
+render();
+
 // ---- Theme toggle ----
 const themeBtn=document.getElementById('themeBtn');
 const root=document.documentElement;
