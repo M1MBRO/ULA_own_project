@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Вершкова паста з шинкою · рецепт із таймерами</title>
+<title>Вершкова паста з куркою · рецепт із таймерами</title>
 <style>
   :root{
     --bg:#fbf6ee;
@@ -210,8 +210,8 @@
 
   <header class="hero">
     <span class="kicker">🍝 Домашній рецепт</span>
-    <h1>Вершкова паста <span class="accent">з шинкою</span></h1>
-    <p class="lead">Ніжна, кремова паста з червоним песто, пармезаном і шинкою. Готується приблизно за 25 хвилин.</p>
+    <h1>Вершкова паста <span class="accent">з куркою</span></h1>
+    <p class="lead">Ніжна, кремова паста з обсмаженим курячим філе, червоним песто й пармезаном. Готується приблизно за 30 хвилин.</p>
     <div class="meta">
       <div class="chip">⏱️ <span>~25 хв</span></div>
       <div class="chip">🍽️ <b id="chipP">3</b><span>порції</span></div>
@@ -262,15 +262,15 @@
           <tr class="buy-row"><td><input type="checkbox" class="cb"></td>
             <td><div class="buy-nm">Паста (макарони)</div><div class="buy-sub">Своя Лінія / Pasta Zara / Tastino</div></td>
             <td><span class="badge b-yes">є</span></td></tr>
-          <tr class="buy-row"><td><input type="checkbox" class="cb"></td>
-            <td><div class="buy-nm">Шинка · 100 г</div><div class="buy-sub">ковбасний відділ / нарізка</div></td>
-            <td><span class="badge b-yes">є</span></td></tr>
+          <tr class="buy-row got"><td><input type="checkbox" class="cb" checked></td>
+            <td><div class="buy-nm">Куряче філе</div><div class="buy-sub">вже є вдома ✓ (замість шинки)</div></td>
+            <td><span class="badge b-home">є вдома</span></td></tr>
           <tr class="buy-row"><td><input type="checkbox" class="cb"></td>
             <td><div class="buy-nm">Пармезан</div><div class="buy-sub">тертий у пакеті або твердий сир</div></td>
             <td><span class="badge b-maybe">зазвичай є</span></td></tr>
-          <tr class="buy-row"><td><input type="checkbox" class="cb"></td>
-            <td><div class="buy-nm">Червона цибуля · 2 шт</div><div class="buy-sub">овочевий відділ</div></td>
-            <td><span class="badge b-yes">є</span></td></tr>
+          <tr class="buy-row got"><td><input type="checkbox" class="cb" checked></td>
+            <td><div class="buy-nm">Біла цибуля · 2 шт</div><div class="buy-sub">вже є вдома ✓</div></td>
+            <td><span class="badge b-home">є вдома</span></td></tr>
           <tr class="buy-row"><td><input type="checkbox" class="cb"></td>
             <td><div class="buy-nm">Вершки · 600 мл</div><div class="buy-sub">20–30%, молочний відділ</div></td>
             <td><span class="badge b-yes">є</span></td></tr>
@@ -316,7 +316,7 @@
     <p class="shop-note">⚠️ Це <b>орієнтовні</b> ціни (~2026 р.), не актуальні залишки твого магазину. Рахується вартість <b>використаної кількості</b> — купуєш ти цілими упаковками, тож разова покупка вийде дорожчою (особливо пармезан і песто, які залишаться на потім).</p>
     <ul class="list cost" id="costList"></ul>
     <div class="cost-total">
-      Разом: <span class="big"><span id="costTotal">0</span> грн</span>
+      Треба докупити: <span class="big"><span id="costTotal">0</span> грн</span>
       <span class="note" id="costPer"></span>
     </div>
   </section>
@@ -337,23 +337,25 @@
     <div class="step">
       <div class="num">2</div>
       <div>
-        <p>Тим часом на великій пательні з невеликою кількістю олії обсмаж <b>червону цибулю до прозорості</b>.</p>
-        <div class="timer" data-seconds="240" data-label="Цибуля до прозорості (~4 хв)"></div>
+        <p><b>Спочатку курка — окремо.</b> Наріж куряче філе кубиками ~2 см, обсуши паперовим рушником (сухе м'ясо смажиться, а мокре — тушкується й стає гумовим), посоли, поперчи, за бажанням присип паприкою.</p>
+        <p class="tip">🔥 Розігрій пательню з олією <b>добре, майже до легкого димку</b>. Виклади курку в <b>один шар, не купою</b> — інакше вона пустить сік і звариться замість смаження. Дай 1.5–2 хв <b>не чіпаючи</b>, щоб схопилася золотиста скоринка, тоді перемішай і досмаж до готовності всередині (<b>без рожевого всередині</b>, ~6–7 хв разом). Переклади курку на тарілку — повернемо її пізніше.</p>
+        <div class="timer" data-seconds="420" data-label="Смаження курки (~7 хв)"></div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">3</div>
       <div>
-        <p>Додай <b>шинку</b> і смаж разом ще 2–3 хвилини.</p>
-        <div class="timer" data-seconds="180" data-label="Обсмажування шинки (3 хв)"></div>
+        <p><b>Потім цибуля — у тій самій пательні.</b> Зменш вогонь до середнього і на соках, що лишились від курки, обсмаж <b>білу цибулю до м'якості й прозорості</b>, помішуючи, ~5 хв. Ті золотисті сліди від курки на дні дадуть соусу глибший смак.</p>
+        <p class="tip">💧 <b>Вода не обов'язкова.</b> Мета з цибулею — не засмажити до хрусткого, а <b>розм'якшити</b> до прозорості. Якщо починає підгорати чи прилипати до дна — влий <b>1–2 ст.л. води</b>: вона зіб'є жар, а цибуля дійде до м'якості «на парі», залишаючись світлою. Біла цибуля гостріша за червону, тож дай їй трохи довше — при готуванні вона стає м'якшою й солодшою.</p>
+        <div class="timer" data-seconds="300" data-label="Цибуля до м'якості (~5 хв)"></div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">4</div>
       <div>
-        <p>Присип усе <b>борошном</b> (≈5–6 ст.л.), перемішай і дай трохи протомитися.</p>
+        <p>Присип цибулю <b>борошном</b> (≈5–6 ст.л.), перемішай і дай протомитися ~1 хв — щоб пішов сирий присмак борошна (це загусник для соусу).</p>
         <div class="timer" data-seconds="90" data-label="Протомити борошно (1.5 хв)"></div>
       </div>
     </div>
@@ -361,7 +363,7 @@
     <div class="step">
       <div class="num">5</div>
       <div>
-        <p>Поступово влий <b>вершки</b>, постійно помішуючи, і доведи соус до кипіння.</p>
+        <p>Поступово влий <b>вершки</b>, <b>постійно помішуючи</b> (щоб не було грудок від борошна), і доведи соус до легкого кипіння — він почне густішати.</p>
         <div class="timer" data-seconds="300" data-label="Довести соус до кипіння (~5 хв)"></div>
       </div>
     </div>
@@ -369,33 +371,41 @@
     <div class="step">
       <div class="num">6</div>
       <div>
-        <p>Вмішай <b>песто «Россо»</b>. Хто любить насиченіший смак — наприкінці додай ще трохи.</p>
+        <p>Вмішай <b>песто «Россо»</b> (або замінник — зелене песто чи в'ялені томати). Хочеш насиченіше — додай ще трохи наприкінці.</p>
       </div>
     </div>
 
     <div class="step">
       <div class="num">7</div>
       <div>
-        <p>Приправ соус <b>сіллю, перцем, часниковим порошком, томатною сіллю та солодкою паприкою</b>.</p>
+        <p>Приправ соус <b>сіллю, перцем, часниковим порошком, томатною сіллю та солодкою паприкою</b>. Куштуй і балансуй смак під себе.</p>
       </div>
     </div>
 
     <div class="step">
       <div class="num">8</div>
       <div>
-        <p>Якщо соус надто густий — поступово підливай <b>воду з-під пасти</b>, доки не досягнеш бажаної консистенції.</p>
+        <p><b>Поверни курку в соус</b> разом із соком, що виділився на тарілці, і протуши <b>2–3 хв</b> — так м'ясо просякне соусом і залишиться соковитим (а не пересушиться, як сталося б, якби ми смажили його до кінця).</p>
+        <div class="timer" data-seconds="180" data-label="Курка тушкується в соусі (3 хв)"></div>
       </div>
     </div>
 
     <div class="step">
       <div class="num">9</div>
       <div>
-        <p>Додай у соус відварену пасту й перемішай. Усип <b>натертий пармезан</b> і ретельно вимішай, доки сир не розтане, а соус гарно не огорне пасту.</p>
+        <p>Якщо соус надто густий — поступово підливай <b>воду з-під пасти</b>, доки не досягнеш бажаної кремової консистенції.</p>
       </div>
     </div>
 
     <div class="step">
       <div class="num">10</div>
+      <div>
+        <p>Додай у соус відварену пасту й перемішай. Усип <b>натертий пармезан</b> і ретельно вимішай, доки сир не розтане, а соус гарно не огорне пасту.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="num">11</div>
       <div>
         <p><b>Одразу подавай до столу</b> — за бажанням посип зверху ще пармезаном. Смачного! 🍝</p>
       </div>
@@ -412,17 +422,17 @@ let portions = 3;
 
 // base = кількість на BASE_PORTIONS порцій; price = грн за цю кількість (орієнтовно, АТБ)
 const DATA = [
-  {n:'Паста',            kind:'g',    base:300, price:18, note:''},
-  {n:'Шинка',            kind:'g',    base:100, price:18, note:'дрібно нарізана'},
+  {n:'Паста',            kind:'g',    base:300, price:18,  note:''},
+  {n:'Куряче філе',      kind:'g',    base:250, price:50,  note:'кубиками, обсмажити', home:true},
   {n:'Пармезан',         kind:'g',    base:100, price:110, note:'натертий'},
-  {n:'Червона цибуля',   kind:'pcs',  base:2,   price:6,  note:'дрібно кубиками'},
-  {n:'Вершки',           kind:'ml',   base:600, price:78, note:'20–30%'},
-  {n:'Песто «Россо»',    kind:'tbsp', base:1,   price:12, note:'за смаком більше'},
-  {n:'Борошно',          kind:'tbsp', base:5.5, price:2,  note:'для загущення'},
-  {n:'Спеції',           kind:'taste',base:0,   price:5,  note:'паприка, перець, часник. порошок, томат. сіль'},
-  {n:'Олія',             kind:'some', base:0,   price:2,  note:'для смаження'},
-  {n:'Вода з-під пасти', kind:'some', base:0,   price:0,  note:''},
-  {n:'Сіль',             kind:'taste',base:0,   price:0,  note:'вже є вдома ✓'},
+  {n:'Біла цибуля',      kind:'pcs',  base:2,   price:6,   note:'дрібно кубиками', home:true},
+  {n:'Вершки',           kind:'ml',   base:600, price:78,  note:'20–30%'},
+  {n:'Песто «Россо»',    kind:'tbsp', base:1,   price:12,  note:'за смаком більше'},
+  {n:'Борошно',          kind:'tbsp', base:5.5, price:2,   note:'для загущення'},
+  {n:'Спеції',           kind:'taste',base:0,   price:5,   note:'паприка, перець, часник. порошок, томат. сіль'},
+  {n:'Олія',             kind:'some', base:0,   price:2,   note:'для смаження'},
+  {n:'Вода з-під пасти', kind:'some', base:0,   price:0,   note:''},
+  {n:'Сіль',             kind:'taste',base:0,   price:0,   note:'вже є вдома ✓', home:true},
 ];
 
 function fmtAmt(kind, qty){
@@ -441,25 +451,28 @@ function render(){
   const costList = document.getElementById('costList');
   ingList.innerHTML = '';
   costList.innerHTML = '';
-  let total = 0;
+  let total = 0, toBuy = 0;
 
   DATA.forEach(d=>{
     const qty = fmtAmt(d.kind, d.base * f);
-    // список інгредієнтів (без «вода/сіль» окремих цінових нюансів — показуємо все)
+    // список інгредієнтів
     ingList.insertAdjacentHTML('beforeend',
       `<li><span class="amt">${qty}</span><span class="nm">${d.n}${d.note?` <span class="note">— ${d.note}</span>`:''}</span></li>`);
 
     // вартість
     const cost = Math.round(d.price * f);
     total += cost;
-    const priceTxt = d.price===0 ? '<span class="note">0 грн</span>' : `${cost} грн`;
+    if(!d.home) toBuy += cost;
+    const priceTxt = d.home
+      ? '<span class="note" style="color:#3a5a86">є вдома</span>'
+      : (d.price===0 ? '<span class="note">—</span>' : `${cost} грн`);
     costList.insertAdjacentHTML('beforeend',
-      `<li><span class="amt" style="min-width:66px">${priceTxt}</span><span class="nm">${d.n} <span class="note">(${qty})</span></span></li>`);
+      `<li${d.home?' style="opacity:.55"':''}><span class="amt" style="min-width:66px">${priceTxt}</span><span class="nm">${d.n} <span class="note">(${qty})</span></span></li>`);
   });
 
-  const per = Math.round(total / portions);
-  document.getElementById('costTotal').textContent = total;
-  document.getElementById('costPer').textContent = `≈ ${per} грн / порція`;
+  const per = Math.round(toBuy / portions);
+  document.getElementById('costTotal').textContent = toBuy;
+  document.getElementById('costPer').textContent = `≈ ${per} грн / порція докупити · повна вартість страви ≈ ${total} грн`;
   document.getElementById('costPortions').textContent = portions;
   document.getElementById('pVal').textContent = portions;
   document.getElementById('chipP').textContent = portions;
